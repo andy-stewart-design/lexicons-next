@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Icon {
+  id             Int      @id @default(autoincrement())
+  name           String   @unique
+
+  path_outline   String? 
+  path_trans     String? 
+  path_solid     String? 
+
+  tags    Tag[]
+}
+
+model Tag {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  
+  icons   Icon[] 
+}
