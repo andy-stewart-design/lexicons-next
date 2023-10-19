@@ -63,6 +63,11 @@ export default async function Home({ searchParams }: PageProps) {
           ))
         )}
       </section>
+      <div className="flex gap-4 px-16">
+        <Link href={`/?style=outline`}>Outline</Link>
+        <Link href={`/?style=solid`}>Solid</Link>
+        <Link href={`/?style=semi-solid`}>Two-Tone</Link>
+      </div>
     </>
   );
 }
