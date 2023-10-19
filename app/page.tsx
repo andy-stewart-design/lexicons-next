@@ -13,14 +13,9 @@ export default async function Home({ searchParams }: PageProps) {
   const query =
     typeof searchParams.search === "string" ? searchParams.search : "";
 
-  // const icons = await fetchIcons(query);
-  // const iconCount = await countIcons(query);
-
   const iconRes = fetchIcons(query);
   const countRes = countIcons(query);
   const [icons, iconCount] = await Promise.all([iconRes, countRes]);
-
-  // console.log(foo);
 
   const icons_alphabetized = icons.sort((a, b) => {
     if (a.name < b.name) return -1;
@@ -52,7 +47,10 @@ export default async function Home({ searchParams }: PageProps) {
         <StyleToggle variant="solid" currentSearchParams={currentSearchParams}>
           Solid
         </StyleToggle>
-        <SearchInput currentSearchParams={currentSearchParams} />
+        <SearchInput
+          currentSearchParams={currentSearchParams}
+          defaultValue={query}
+        />
         <span>{iconCount} icons</span>
       </nav>
       <section className="grid grid-cols-6 gap-4 p-16">

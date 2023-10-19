@@ -1,8 +1,9 @@
 import prisma from "@lib/prisma";
+import { cache } from "react";
 
 export const revalidate = 60;
 
-export async function fetchIcons(query: string) {
+export const fetchIcons = cache(async (query: string) => {
   const icons = await prisma.icon.findMany({
     where: {
       OR: [
@@ -28,9 +29,9 @@ export async function fetchIcons(query: string) {
   });
 
   return icons;
-}
+});
 
-export async function countIcons(query: string) {
+export const countIcons = cache(async (query: string) => {
   const icons = await prisma.icon.count({
     where: {
       OR: [
@@ -53,4 +54,4 @@ export async function countIcons(query: string) {
   });
 
   return icons;
-}
+});

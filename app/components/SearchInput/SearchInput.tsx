@@ -7,9 +7,13 @@ import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.
 
 interface Props extends ComponentProps<"input"> {
   currentSearchParams: URLSearchParams;
+  defaultValue: string;
 }
 
-export default function SearchInput({ currentSearchParams }: Props) {
+export default function SearchInput({
+  currentSearchParams,
+  defaultValue,
+}: Props) {
   const router = useRouter();
 
   function handleSubmit(e: ChangeEvent<HTMLInputElement>) {
@@ -27,6 +31,7 @@ export default function SearchInput({ currentSearchParams }: Props) {
       <input
         type="text"
         onChange={handleSubmit}
+        defaultValue={defaultValue}
         placeholder="Search icons"
         className="bg-transparent border border-white/20"
       />
