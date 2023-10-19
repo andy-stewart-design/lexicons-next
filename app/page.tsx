@@ -76,9 +76,7 @@ function StyleToggle({ variant, currentSearchParams, children }: StyleLink) {
   const newSearchParams = new URLSearchParams(currentSearchParams);
   newSearchParams.set("style", variant);
 
-  console.log();
-
-  return <Link href={`/?${newSearchParams}`}>{children}</Link>;
+  return <a href={`/?${newSearchParams}`}>{children}</a>;
 }
 
 function validateStyle(style: string | Array<string> | undefined) {
