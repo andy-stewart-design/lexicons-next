@@ -31,10 +31,21 @@ export default function SVG({ icon, variant }: Props) {
       xmlns="http://www.w3.org/2000/svg"
     >
       {variant === "solid" && icon.path_solid && (
-        <path d={icon.path_solid} fill="currentColor" />
+        <path
+          d={icon.path_solid}
+          fill="currentColor"
+          fillRule="evenodd"
+          clipRule="evenodd"
+        />
       )}
       {variant === "semi-solid" && icon.path_trans && (
-        <path d={icon.path_trans} fill="currentColor" opacity="0.4" />
+        <path
+          d={icon.path_trans}
+          fill="currentColor"
+          opacity="0.4"
+          fillRule="evenodd"
+          clipRule="evenodd"
+        />
       )}
       {showOutline && icon.path_outline && (
         <path
