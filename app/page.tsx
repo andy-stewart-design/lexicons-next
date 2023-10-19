@@ -1,11 +1,9 @@
-import prisma from "./lib/prisma";
-import IconCard from "./components/IconCard";
-import SVG from "./components/SVG";
+import IconCard from "@components/IconCard";
+import SVG from "@components/SVG";
 import Link from "next/link";
 import SearchInput from "./components/SearchInput/SearchInput";
 import { ComponentProps } from "react";
-
-// export const revalidate = 0;
+import { fetchIcons } from "@utils/prisma";
 
 interface PageProps {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -47,7 +45,7 @@ export default async function Home({ searchParams }: PageProps) {
         <StyleToggle variant="solid" currentSearchParams={currentSearchParams}>
           Solid
         </StyleToggle>
-        {/* <SearchInput currentSearchParams={currentSearchParams} /> */}
+        <SearchInput currentSearchParams={currentSearchParams} />
       </nav>
       <section className="grid grid-cols-6 gap-4 p-16">
         {!style ? (
@@ -93,32 +91,4 @@ function validateStyle(style: string | Array<string> | undefined) {
   if (invalidStyle) return null;
 
   return style;
-}
-
-async function fetchIcons(query: string) {
-  const icons = await prisma.icon.findMany({
-    where: {
-      OR: [
-        {
-          name: {
-            contains: query,
-          },
-        },
-        {
-          tags: {
-            some: {
-              name: {
-                contains: query,
-              },
-            },
-          },
-        },
-      ],
-    },
-    include: {
-      tags: true,
-    },
-  });
-
-  return icons;
 }
