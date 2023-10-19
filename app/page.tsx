@@ -2,7 +2,7 @@ import prisma from "./lib/prisma";
 import IconCard from "./components/IconCard";
 import SVG from "./components/SVG";
 import Link from "next/link";
-import TestInput from "./components/TestInput/TestInput";
+import SearchInput from "./components/SearchInput/SearchInput";
 import { ComponentProps } from "react";
 
 export const revalidate = 0;
@@ -30,6 +30,7 @@ export default async function Home({ searchParams }: PageProps) {
 
   return (
     <>
+      <p>{currentSearchParams.toString()}</p>
       <nav className="flex gap-4 px-16 pt-8">
         <StyleToggle
           variant="outline"
@@ -46,7 +47,7 @@ export default async function Home({ searchParams }: PageProps) {
         <StyleToggle variant="solid" currentSearchParams={currentSearchParams}>
           Solid
         </StyleToggle>
-        <TestInput currentSearchParams={currentSearchParams} />
+        <SearchInput currentSearchParams={currentSearchParams} />
       </nav>
       <section className="grid grid-cols-6 gap-4 p-16">
         {!style ? (
@@ -74,6 +75,8 @@ interface StyleLink extends ComponentProps<"a"> {
 function StyleToggle({ variant, currentSearchParams, children }: StyleLink) {
   const newSearchParams = new URLSearchParams(currentSearchParams);
   newSearchParams.set("style", variant);
+
+  console.log();
 
   return <Link href={`/?${newSearchParams}`}>{children}</Link>;
 }

@@ -9,7 +9,7 @@ interface Props extends ComponentProps<"input"> {
   currentSearchParams: URLSearchParams;
 }
 
-export default function TestInput({ currentSearchParams }: Props) {
+export default function SearchInput({ currentSearchParams }: Props) {
   const router = useRouter();
 
   function handleSubmit(e: ChangeEvent<HTMLInputElement>) {
