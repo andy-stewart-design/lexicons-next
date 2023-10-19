@@ -47,7 +47,7 @@ export default async function Home({ searchParams }: PageProps) {
         <StyleToggle variant="solid" currentSearchParams={currentSearchParams}>
           Solid
         </StyleToggle>
-        <SearchInput currentSearchParams={currentSearchParams} />
+        {/* <SearchInput currentSearchParams={currentSearchParams} /> */}
       </nav>
       <section className="grid grid-cols-6 gap-4 p-16">
         {!style ? (
