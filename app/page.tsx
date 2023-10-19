@@ -3,7 +3,7 @@ import SVG from "@components/SVG";
 import Link from "next/link";
 import SearchInput from "./components/SearchInput/SearchInput";
 import { ComponentProps } from "react";
-import { fetchIcons } from "@utils/prisma";
+import { fetchIcons, countIcons } from "@utils/prisma";
 
 interface PageProps {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -12,7 +12,15 @@ interface PageProps {
 export default async function Home({ searchParams }: PageProps) {
   const query =
     typeof searchParams.search === "string" ? searchParams.search : "";
-  const icons = await fetchIcons(query);
+
+  // const icons = await fetchIcons(query);
+  // const iconCount = await countIcons(query);
+
+  const iconRes = fetchIcons(query);
+  const countRes = countIcons(query);
+  const [icons, iconCount] = await Promise.all([iconRes, countRes]);
+
+  // console.log(foo);
 
   const icons_alphabetized = icons.sort((a, b) => {
     if (a.name < b.name) return -1;
@@ -45,6 +53,7 @@ export default async function Home({ searchParams }: PageProps) {
           Solid
         </StyleToggle>
         <SearchInput currentSearchParams={currentSearchParams} />
+        <span>{iconCount} icons</span>
       </nav>
       <section className="grid grid-cols-6 gap-4 p-16">
         {!style ? (
