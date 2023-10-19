@@ -1,7 +1,7 @@
 import prisma from "@lib/prisma";
 import { cache } from "react";
 
-export const revalidate = 60;
+export const revalidate = 60 * 60;
 
 export const fetchIcons = cache(async (query: string) => {
   const icons = await prisma.icon.findMany({
