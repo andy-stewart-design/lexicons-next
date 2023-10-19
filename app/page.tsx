@@ -5,7 +5,7 @@ import Link from "next/link";
 import SearchInput from "./components/SearchInput/SearchInput";
 import { ComponentProps } from "react";
 
-export const revalidate = 0;
+// export const revalidate = 0;
 
 interface PageProps {
   searchParams: { [key: string]: string | string[] | undefined };
