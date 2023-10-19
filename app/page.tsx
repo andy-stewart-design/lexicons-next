@@ -73,10 +73,10 @@ interface StyleLink extends ComponentProps<"a"> {
 }
 
 function StyleToggle({ variant, currentSearchParams, children }: StyleLink) {
-  const newSearchParams = new URLSearchParams(currentSearchParams);
-  newSearchParams.set("style", variant);
+  // const newSearchParams = new URLSearchParams(currentSearchParams);
+  // newSearchParams.set("style", variant);
 
-  return <Link href={`/?${newSearchParams}`}>{children}</Link>;
+  return <Link href={`/?style=${variant}`}>{children}</Link>;
 }
 
 function validateStyle(style: string | Array<string> | undefined) {
