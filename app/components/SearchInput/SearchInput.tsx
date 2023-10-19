@@ -19,7 +19,7 @@ export default function SearchInput({ currentSearchParams }: Props) {
     if (query !== "") newSearchParams.set("search", query);
     else newSearchParams.delete("search");
 
-    debouncedSubmit(newSearchParams.toString(), router);
+    debouncedSubmit(newSearchParams, router);
   }
 
   return (
@@ -34,6 +34,9 @@ export default function SearchInput({ currentSearchParams }: Props) {
   );
 }
 
-const debouncedSubmit = debounce((query: string, router: AppRouterInstance) => {
-  router.push(`/?${query}`);
-}, 300);
+const debouncedSubmit = debounce(
+  (query: URLSearchParams, router: AppRouterInstance) => {
+    router.push(`/?${query}`);
+  },
+  300
+);

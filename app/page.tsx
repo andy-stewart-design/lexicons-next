@@ -28,7 +28,6 @@ export default async function Home({ searchParams }: PageProps) {
 
   return (
     <>
-      <p>{currentSearchParams.toString()}</p>
       <nav className="flex gap-4 px-16 pt-8">
         <StyleToggle
           variant="outline"
@@ -61,11 +60,6 @@ export default async function Home({ searchParams }: PageProps) {
           ))
         )}
       </section>
-      <div className="flex gap-4 px-16">
-        <Link href={`/?style=outline`}>Outline</Link>
-        <Link href={`/?style=solid`}>Solid</Link>
-        <Link href={`/?style=semi-solid`}>Two-Tone</Link>
-      </div>
     </>
   );
 }
@@ -76,10 +70,10 @@ interface StyleLink extends ComponentProps<"a"> {
 }
 
 function StyleToggle({ variant, currentSearchParams, children }: StyleLink) {
-  // const newSearchParams = new URLSearchParams(currentSearchParams);
-  // newSearchParams.set("style", variant);
+  const newSearchParams = new URLSearchParams(currentSearchParams);
+  newSearchParams.set("style", variant);
 
-  return <Link href={`/?style=${variant}`}>{children}</Link>;
+  return <Link href={`/?${newSearchParams}`}>{children}</Link>;
 }
 
 function validateStyle(style: string | Array<string> | undefined) {
