@@ -33,7 +33,7 @@ export default function SearchInput({
         onChange={handleSubmit}
         defaultValue={defaultValue}
         placeholder="Search icons"
-        className="bg-transparent border border-white/20"
+        className="bg-transparent border border-white/20 px-3 py-2.5 rounded"
       />
     </>
   );

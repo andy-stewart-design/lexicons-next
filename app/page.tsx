@@ -1,13 +1,27 @@
 import IconCard from "@components/IconCard";
 import SVG from "@components/SVG";
-import Link from "next/link";
 import SearchInput from "./components/SearchInput/SearchInput";
-import { ComponentProps } from "react";
 import { fetchIcons, countIcons } from "@utils/prisma";
+import Select from "@components/Select";
 
 interface PageProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
+
+const iconStyles = [
+  {
+    value: "outline",
+    label: "Outline",
+  },
+  {
+    value: "solid",
+    label: "Solid",
+  },
+  {
+    value: "semi-solid",
+    label: "Two-tone",
+  },
+];
 
 export default async function Home({ searchParams }: PageProps) {
   const query =
@@ -32,29 +46,23 @@ export default async function Home({ searchParams }: PageProps) {
   return (
     <>
       <nav className="flex gap-4 px-16 pt-8">
-        <StyleToggle
-          variant="outline"
+        <Select
+          options={iconStyles}
           currentSearchParams={currentSearchParams}
-        >
-          Outline
-        </StyleToggle>
-        <StyleToggle
-          variant="semi-solid"
-          currentSearchParams={currentSearchParams}
-        >
-          Two-tone
-        </StyleToggle>
-        <StyleToggle variant="solid" currentSearchParams={currentSearchParams}>
-          Solid
-        </StyleToggle>
+        />
         <SearchInput
           currentSearchParams={currentSearchParams}
           defaultValue={query}
         />
-        <span>{iconCount} icons</span>
+        <div className="text-[11px] leading-snug tracking-wide">
+          <div className="opacity-60">Showing</div>
+          <span className="text-[13px] slashed-zero tabular-nums">
+            0{iconCount} icons
+          </span>
+        </div>
       </nav>
       <section className="grid grid-cols-6 gap-4 p-16">
-        {!style ? (
+        {!style || icons.length === 0 ? (
           <p>No icons found</p>
         ) : (
           icons_alphabetized.map((icon) => (
@@ -69,18 +77,6 @@ export default async function Home({ searchParams }: PageProps) {
       </section>
     </>
   );
-}
-
-interface StyleLink extends ComponentProps<"a"> {
-  variant: string;
-  currentSearchParams: URLSearchParams;
-}
-
-function StyleToggle({ variant, currentSearchParams, children }: StyleLink) {
-  const newSearchParams = new URLSearchParams(currentSearchParams);
-  newSearchParams.set("style", variant);
-
-  return <Link href={`/?${newSearchParams}`}>{children}</Link>;
 }
 
 function validateStyle(style: string | Array<string> | undefined) {
