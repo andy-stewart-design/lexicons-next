@@ -32,9 +32,16 @@ interface Props extends ComponentProps<"select"> {
     label: string;
   }[];
   currentSearchParams: URLSearchParams;
+  defaultValue: string;
 }
 
-export default function Select({ options, currentSearchParams }: Props) {
+export default function Select({
+  options,
+  currentSearchParams,
+  defaultValue,
+}: Props) {
+  console.log({ defaultValue });
+
   const [value, setValue] = useState("outline");
   const router = useRouter();
 
@@ -51,12 +58,18 @@ export default function Select({ options, currentSearchParams }: Props) {
   }
 
   return (
-    <RadSelect.Root value={value} onValueChange={handleChange}>
+    <RadSelect.Root
+      value={value}
+      defaultValue={defaultValue}
+      onValueChange={handleChange}
+    >
       <RadSelect.Trigger
-        className="flex items-center justify-between rounded px-3 py-2 text-sm leading-none gap-1 bg-white text-black shadow-[0_2px_10px] shadow-black/10 focus:shadow-[0_0_0_2px] focus:shadow-black outline-none min-w-[160px]"
+        className="flex items-center justify-between rounded px-3 h-12 text-sm leading-none gap-1 bg-white text-black shadow-[0_2px_10px] shadow-black/10 focus:shadow-[0_0_0_2px] focus:shadow-black outline-none min-w-[160px] capitalize"
         aria-label="Food"
       >
-        <RadSelect.Value placeholder="Select a style" />
+        <RadSelect.Value placeholder="Select a style">
+          {defaultValue}
+        </RadSelect.Value>
         <RadSelect.Icon className="text-black">
           <ChevronDown />
         </RadSelect.Icon>

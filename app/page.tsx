@@ -45,9 +45,10 @@ export default async function Home({ searchParams }: PageProps) {
 
   return (
     <>
-      <nav className="flex gap-4 px-16 pt-8">
+      <nav className="flex items-center gap-4 px-16 pt-8">
         <Select
           options={iconStyles}
+          defaultValue={style ?? ""}
           currentSearchParams={currentSearchParams}
         />
         <SearchInput
