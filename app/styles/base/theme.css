@@ -1,0 +1,23 @@
+@layer base {
+  :root {
+    --foreground: var(--gray-950);
+    --background: var(--gray-50);
+
+    --surface-1: var(--gray-700);
+    --surface-2: var(--gray-800);
+    --surface-3: var(--gray-850);
+    --surface-4: var(--gray-900);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --foreground: var(--gray-50);
+      --background: var(--gray-950);
+
+      --surface-1: var(--gray-700);
+      --surface-2: var(--gray-800);
+      --surface-3: var(--gray-850);
+      --surface-4: var(--gray-900);
+    }
+  }
+}

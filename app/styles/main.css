@@ -1,22 +1,19 @@
+@layer base, modules, overrides;
+
 @import "./base/colors.css";
+@import "./base/easings.css";
+@import "./base/shadows.css";
+@import "./base/sizes.css";
+
+@import "./base/theme.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground: var(--gray-900);
-  --background: var(--gray-50);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground: var(--gray-50);
-    --background: var(--gray-900);
+@layer base {
+  body {
+    color: var(--foreground);
+    background: var(--background);
   }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
 }

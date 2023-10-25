@@ -1,18 +1,23 @@
-:root {
-  --test-color: cyan;
+@layer base {
+  :root {
+    --test-color: cyan;
 
-  --gray-950-oklch: 18% 0.015 270;
-  --gray-950: oklch(var(--gray-950-oklch));
+    --gray-950-oklch: 18% 0.015 270;
+    --gray-950: oklch(var(--gray-950-oklch));
 
-  --gray-900-oklch: 21% 0.025 270;
-  --gray-900: oklch(var(--gray-900-oklch));
+    --gray-900-oklch: 21% 0.025 270;
+    --gray-900: oklch(var(--gray-900-oklch));
 
-  --gray-800-oklch: 30% 0.025 270;
-  --gray-800: oklch(var(--gray-800-oklch));
+    --gray-850-oklch: 26% 0.025 270;
+    --gray-850: oklch(var(--gray-850-oklch));
 
-  --gray-700-oklch: 37% 0.025 270;
-  --gray-700: oklch(var(--gray-700-oklch));
+    --gray-800-oklch: 30% 0.025 270;
+    --gray-800: oklch(var(--gray-800-oklch));
 
-  --gray-50-oklch: 97% 0.005 100;
-  --gray-50: oklch(var(--gray-50-oklch));
+    --gray-700-oklch: 37% 0.025 270;
+    --gray-700: oklch(var(--gray-700-oklch));
+
+    --gray-50-oklch: 97% 0.005 100;
+    --gray-50: oklch(var(--gray-50-oklch));
+  }
 }

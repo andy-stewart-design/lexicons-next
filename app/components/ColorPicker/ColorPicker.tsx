@@ -4,7 +4,6 @@ import { useId } from "react";
 import * as RadPopover from "@radix-ui/react-popover";
 import { useSlider } from "@/app/hooks/use-input";
 import classes from "./colorpicker.module.css";
-// import { Close } from "@icons/24";
 
 export default function ColorPicker() {
   const hueId = useId();
@@ -19,93 +18,114 @@ export default function ColorPicker() {
   const backgroundColor = `oklch(${light}% ${chroma} ${hue})`;
 
   return (
-    <RadPopover.Root>
-      <RadPopover.Trigger asChild>
-        <span className={classes.test}>
-          <button
-            className="rounded-full w-12 h-12"
-            style={{ backgroundColor }}
-            aria-label="Update icon color"
-          ></button>
+    <div className={classes["color-picker-group"]}>
+      <p>Accent Color</p>
+      <div className={classes["color-picker"]}>
+        <RadPopover.Root>
+          <RadPopover.Trigger asChild>
+            <button
+              className={classes.trigger}
+              style={{ backgroundColor }}
+              aria-label="Update icon color"
+            ></button>
+          </RadPopover.Trigger>
+          <RadPopover.Portal>
+            <RadPopover.Content
+              className={classes["drop-down"]}
+              sideOffset={8}
+              align="start"
+            >
+              <div className="h-32" style={{ backgroundColor }} />
+              <div className="p-4">
+                {/* ----- HUE SLIDER ----- */}
+                <div className="grid gap-4">
+                  <div className="grid gap-2">
+                    <div className="flex">
+                      <label htmlFor={hueId} className="grow">
+                        Hue
+                      </label>
+                      <span className="tabular-nums">
+                        {Number(hue).toFixed(1)}
+                      </span>
+                    </div>
+                    <input
+                      id={hueId}
+                      type="range"
+                      className="block w-full"
+                      value={hue}
+                      onChange={setHue}
+                      {...restHueProps}
+                    />
+                  </div>
+                  {/* ----- CHROMA SLIDER ----- */}
+                  <div className="grid gap-2">
+                    <div className="flex">
+                      <label htmlFor={chromaId} className="grow">
+                        Saturation
+                      </label>
+                      <span className="tabular-nums">
+                        {Number(chroma).toFixed(2)}
+                      </span>
+                    </div>
+                    <input
+                      id={chromaId}
+                      type="range"
+                      className="block w-full"
+                      value={chroma}
+                      onChange={setChroma}
+                      {...restChromaProps}
+                    />
+                  </div>
+                  {/* ----- LIGHTNESS SLIDER ----- */}
+                  <div className="grid gap-2">
+                    <div className="flex">
+                      <label htmlFor={lightId} className="grow">
+                        Lightness
+                      </label>
+                      <span className="tabular-nums">
+                        {Number(light).toFixed(1)}
+                      </span>
+                    </div>
+                    <input
+                      id={lightId}
+                      type="range"
+                      className="block w-full"
+                      value={light}
+                      onChange={setLight}
+                      {...restLightProps}
+                    />
+                  </div>
+                </div>
+              </div>
+            </RadPopover.Content>
+          </RadPopover.Portal>
+        </RadPopover.Root>
+        <span>
+          <input
+            type="number"
+            value={hue}
+            onChange={setHue}
+            {...restHueProps}
+            step="10"
+          />
         </span>
-      </RadPopover.Trigger>
-      <RadPopover.Portal>
-        <RadPopover.Content
-          className="rounded w-[280px] bg-gray-800 text-gray-50 overflow-hidden data-[state=open]:animate-slideUpAndFade"
-          sideOffset={8}
-          align="start"
-        >
-          <div className="h-32" style={{ backgroundColor }} />
-          <div className="p-4">
-            {/* ----- HUE SLIDER ----- */}
-            <div className="grid gap-4">
-              <div className="grid gap-2">
-                <div className="flex">
-                  <label htmlFor={hueId} className="grow">
-                    Hue
-                  </label>
-                  <span className="tabular-nums">{Number(hue).toFixed(1)}</span>
-                </div>
-                <input
-                  id={hueId}
-                  type="range"
-                  className="block w-full"
-                  value={hue}
-                  onChange={setHue}
-                  {...restHueProps}
-                />
-              </div>
-
-              {/* ----- CHROMA SLIDER ----- */}
-              <div className="grid gap-2">
-                <div className="flex">
-                  <label htmlFor={chromaId} className="grow">
-                    Chroma
-                  </label>
-                  <span className="tabular-nums">
-                    {Number(chroma).toFixed(2)}
-                  </span>
-                </div>
-                <input
-                  id={chromaId}
-                  type="range"
-                  className="block w-full"
-                  value={chroma}
-                  onChange={setChroma}
-                  {...restChromaProps}
-                />
-              </div>
-
-              {/* ----- LIGHTNESS SLIDER ----- */}
-              <div className="grid gap-2">
-                <div className="flex">
-                  <label htmlFor={lightId} className="grow">
-                    Lightness
-                  </label>
-                  <span className="tabular-nums">
-                    {Number(light).toFixed(1)}
-                  </span>
-                </div>
-                <input
-                  id={lightId}
-                  type="range"
-                  className="block w-full"
-                  value={light}
-                  onChange={setLight}
-                  {...restLightProps}
-                />
-              </div>
-            </div>
-          </div>
-          {/* <RadPopover.Close
-            className="rounded-full h-[25px] w-[25px] inline-flex items-center justify-center absolute top-[5px] right-[5px]"
-            aria-label="Close"
-          >
-            <Close />
-          </RadPopover.Close> */}
-          {/* <RadPopover.Arrow className="fill-gray-800" /> */}
-        </RadPopover.Content>
-      </RadPopover.Portal>
-    </RadPopover.Root>
+        <span>
+          <input
+            type="number"
+            value={chroma}
+            onChange={setChroma}
+            {...restChromaProps}
+          />
+        </span>
+        <span>
+          <input
+            type="number"
+            value={light}
+            onChange={setLight}
+            {...restLightProps}
+          />
+        </span>
+      </div>
+    </div>
   );
 }
