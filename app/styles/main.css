@@ -1,0 +1,22 @@
+@import "./base/colors.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground: var(--gray-900);
+  --background: var(--gray-50);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground: var(--gray-50);
+    --background: var(--gray-900);
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}

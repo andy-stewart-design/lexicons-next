@@ -3,6 +3,7 @@
 import { useId } from "react";
 import * as RadPopover from "@radix-ui/react-popover";
 import { useSlider } from "@/app/hooks/use-input";
+import classes from "./colorpicker.module.css";
 // import { Close } from "@icons/24";
 
 export default function ColorPicker() {
@@ -20,11 +21,13 @@ export default function ColorPicker() {
   return (
     <RadPopover.Root>
       <RadPopover.Trigger asChild>
-        <button
-          className="rounded-full w-12 h-12"
-          style={{ backgroundColor }}
-          aria-label="Update icon color"
-        ></button>
+        <span className={classes.test}>
+          <button
+            className="rounded-full w-12 h-12"
+            style={{ backgroundColor }}
+            aria-label="Update icon color"
+          ></button>
+        </span>
       </RadPopover.Trigger>
       <RadPopover.Portal>
         <RadPopover.Content
