@@ -54,6 +54,7 @@ export default async function Home({ searchParams }: PageProps) {
         <SearchInput
           currentSearchParams={currentSearchParams}
           defaultValue={query}
+          style={{ flexGrow: 1 }}
         />
         <div className="text-[11px] leading-snug tracking-wide">
           <div className="opacity-60">Showing</div>
@@ -67,7 +68,7 @@ export default async function Home({ searchParams }: PageProps) {
           <p>No icons found</p>
         ) : (
           icons_alphabetized.map((icon) => (
-            <IconCard key={icon.id} icon={icon.name}>
+            <IconCard key={icon.id} name={icon.name}>
               <SVG key={icon.id} variant={style} icon={icon} />
               <p className="capitalize text-xs">
                 {icon.name.replaceAll("_", " ")}

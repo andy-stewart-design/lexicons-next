@@ -1,4 +1,10 @@
 .color-picker-group {
+  --number-width: 100%;
+
+  @media (prefers-color-scheme: dark) {
+    --number-background: blue;
+  }
+  
   display: grid;
   gap: var(--size-4);
   width: 100%;
@@ -42,7 +48,7 @@
       content: 'L';
     }
     
-    input[type="number"] {
+    /* input[type="number"] {
       position: relative;
       display: block;
       background: var(--gray-900);
@@ -59,7 +65,7 @@
         -webkit-appearance: none; 
         margin: 0;
       }
-    }
+    } */
   }
 }
 

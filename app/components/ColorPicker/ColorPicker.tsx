@@ -1,24 +1,30 @@
 "use client";
 
-import { useId } from "react";
+import { type ComponentProps, useId } from "react";
 import * as RadPopover from "@radix-ui/react-popover";
-import { useSlider } from "@/app/hooks/use-input";
+import NumberInput from "@components/NumberInput";
+import type { SliderSetupHookReturn } from "@/app/hooks/use-input";
 import classes from "./colorpicker.module.css";
 
-export default function ColorPicker() {
-  const hueId = useId();
-  const [hue, setHue, restHueProps] = useSlider(240, 0, 360, 0.1);
+interface ColorPickerProps {
+  hue: SliderSetupHookReturn;
+  chroma: SliderSetupHookReturn;
+  lightness: SliderSetupHookReturn;
+}
 
-  const chromaId = useId();
-  const [chroma, setChroma, restChromaProps] = useSlider(0.5, 0, 0.5, 0.01);
-
-  const lightId = useId();
-  const [light, setLight, restLightProps] = useSlider(100, 0, 100, 0.1);
+export default function ColorPicker({
+  hue: hueProps,
+  chroma: chromaProps,
+  lightness: lightnessProps,
+}: ColorPickerProps) {
+  const [hue, setHue, restHueProps] = hueProps;
+  const [chroma, setChroma, restChromaProps] = chromaProps;
+  const [light, setLight, restLightProps] = lightnessProps;
 
   const backgroundColor = `oklch(${light}% ${chroma} ${hue})`;
 
   return (
-    <div className={classes["color-picker-group"]}>
+    <div className={`${classes["color-picker-group"]} test`}>
       <p>Accent Color</p>
       <div className={classes["color-picker"]}>
         <RadPopover.Root>
@@ -35,74 +41,44 @@ export default function ColorPicker() {
               sideOffset={8}
               align="start"
             >
-              <div className="h-32" style={{ backgroundColor }} />
+              <ColorPreview style={{ backgroundColor }} />
               <div className="p-4">
-                {/* ----- HUE SLIDER ----- */}
                 <div className="grid gap-4">
-                  <div className="grid gap-2">
-                    <div className="flex">
-                      <label htmlFor={hueId} className="grow">
-                        Hue
-                      </label>
-                      <span className="tabular-nums">
-                        {Number(hue).toFixed(1)}
-                      </span>
-                    </div>
-                    <input
-                      id={hueId}
-                      type="range"
-                      className="block w-full"
-                      value={hue}
-                      onChange={setHue}
-                      {...restHueProps}
-                    />
-                  </div>
+                  {/* ----- HUE SLIDER ----- */}
+                  <ColorSlider value={hue} onChange={setHue} {...restHueProps}>
+                    Hue
+                  </ColorSlider>
                   {/* ----- CHROMA SLIDER ----- */}
-                  <div className="grid gap-2">
-                    <div className="flex">
-                      <label htmlFor={chromaId} className="grow">
-                        Saturation
-                      </label>
-                      <span className="tabular-nums">
-                        {Number(chroma).toFixed(2)}
-                      </span>
-                    </div>
-                    <input
-                      id={chromaId}
-                      type="range"
-                      className="block w-full"
-                      value={chroma}
-                      onChange={setChroma}
-                      {...restChromaProps}
-                    />
-                  </div>
+                  <ColorSlider
+                    value={chroma}
+                    onChange={setChroma}
+                    numDecimals={2}
+                    {...restChromaProps}
+                  >
+                    Saturation
+                  </ColorSlider>
                   {/* ----- LIGHTNESS SLIDER ----- */}
-                  <div className="grid gap-2">
-                    <div className="flex">
-                      <label htmlFor={lightId} className="grow">
-                        Lightness
-                      </label>
-                      <span className="tabular-nums">
-                        {Number(light).toFixed(1)}
-                      </span>
-                    </div>
-                    <input
-                      id={lightId}
-                      type="range"
-                      className="block w-full"
-                      value={light}
-                      onChange={setLight}
-                      {...restLightProps}
-                    />
-                  </div>
+                  <ColorSlider
+                    value={light}
+                    onChange={setLight}
+                    {...restLightProps}
+                  >
+                    Lightness
+                  </ColorSlider>
                 </div>
               </div>
             </RadPopover.Content>
           </RadPopover.Portal>
         </RadPopover.Root>
         <span>
-          <input
+          {/* <input
             type="number"
+            value={hue}
+            onChange={setHue}
+            {...restHueProps}
+            step="10"
+          /> */}
+          <NumberInput
             value={hue}
             onChange={setHue}
             {...restHueProps}
@@ -126,6 +102,49 @@ export default function ColorPicker() {
           />
         </span>
       </div>
+    </div>
+  );
+}
+
+// COLOR PREVIEW -------------------------------------------- //
+
+function ColorPreview({ style }: ComponentProps<"div">) {
+  return <div className="h-32" style={style} />;
+}
+
+// COLOR SLIDER -------------------------------------------- //
+
+interface ColorSliderProps extends ComponentProps<"input"> {
+  numDecimals?: number;
+}
+
+function ColorSlider({
+  children,
+  value,
+  onChange,
+  numDecimals = 1,
+  ...delegated
+}: ColorSliderProps) {
+  const id = useId();
+
+  return (
+    <div className="grid gap-2">
+      <div className="flex">
+        <label htmlFor={id} className="grow">
+          {children}
+        </label>
+        <span className="tabular-nums">
+          {Number(value).toFixed(numDecimals)}
+        </span>
+      </div>
+      <input
+        {...delegated}
+        id={id}
+        type="range"
+        className="block w-full"
+        value={value}
+        onChange={onChange}
+      />
     </div>
   );
 }

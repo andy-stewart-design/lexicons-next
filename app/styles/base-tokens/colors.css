@@ -1,4 +1,4 @@
-@layer base {
+@layer system {
   :root {
     --test-color: cyan;
 

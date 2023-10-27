@@ -13,6 +13,7 @@ interface Props extends ComponentProps<"input"> {
 export default function SearchInput({
   currentSearchParams,
   defaultValue,
+  ...delegated
 }: Props) {
   const router = useRouter();
 
@@ -29,11 +30,11 @@ export default function SearchInput({
   return (
     <>
       <input
+        {...delegated}
         type="text"
         onChange={handleSubmit}
         defaultValue={defaultValue}
         placeholder="Search icons"
-        className="bg-transparent border border-white/20 px-3 h-12 grow rounded"
       />
     </>
   );

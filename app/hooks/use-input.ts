@@ -14,20 +14,26 @@ interface DelegatedSlideProps {
   step: number;
 }
 
+export type SliderSetupHookReturn = [
+  number,
+  SliderChangeEvent,
+  DelegatedSlideProps
+];
+
 type SliderSetupHook = (
-  defaultValue: number,
+  initialValue: number,
   min: number,
   max: number,
   step: number
-) => [number, SliderChangeEvent, DelegatedSlideProps];
+) => SliderSetupHookReturn;
 
 export const useSlider: SliderSetupHook = (
-  defaultValue = 5,
+  initialValue = 5,
   min = 0,
-  max = defaultValue * 2,
+  max = initialValue * 2,
   step = 0.1
 ) => {
-  const [value, setValue] = useState(defaultValue);
+  const [value, setValue] = useState(initialValue);
 
   const onChange = useCallback(
     function (event: ChangeEvent<HTMLInputElement>) {

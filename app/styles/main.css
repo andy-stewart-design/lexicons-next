@@ -1,11 +1,13 @@
-@layer base, modules, overrides;
+@layer system, modules, overrides;
 
-@import "./base/colors.css";
-@import "./base/easings.css";
-@import "./base/shadows.css";
-@import "./base/sizes.css";
+@import "./base-tokens/colors.css";
+@import "./base-tokens/easings.css";
+@import "./base-tokens/shadows.css";
+@import "./base-tokens/sizes.css";
+@import "./base-tokens/theme.css";
 
-@import "./base/theme.css";
+@import "./base-components/inputs.css";
+@import "./base-components/number-input.css";
 
 @tailwind base;
 @tailwind components;

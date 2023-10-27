@@ -1,0 +1,58 @@
+@layer system {
+  input[type="number"] {
+    --number-font-size: inherit;
+    --number-font-weight: inherit;
+    --number-text-align: left;
+    --number-text-highlight: oklch(var(--accent-color-oklch) / 35%);
+
+    --number-width: auto;
+    --number-height: auto;
+    --number-height-min: var(--size-10);
+
+    --number-padding-inline: 20px;
+    --number-padding-block: 0;
+
+    --number-background: var(--gray-100);
+    --number-border: 1px solid oklch(100% 0 0 / 50%);
+    --number-border-radius: var(--size-1);
+
+    @media (prefers-color-scheme: dark) {
+      --number-background: var(--gray-900);
+    }
+
+    font-size: var(--number-font-size);
+    font-weight: var(--number-font-weight);
+    text-align: var(--number-text-align);
+    font-variant-numeric: tabular-nums;
+
+    width: var(--number-width);
+    height: var(--number-height);
+    min-height: var(--number-height-min);
+
+    padding-inline: var(--number-padding-inline);
+    padding-block: var(--number-padding-block);
+
+    background: var(--number-background);
+    border: var(--number-border);
+    border-radius: var(--number-border-radius);
+
+    -moz-appearance: textfield;
+    appearance: auto;
+
+    &:focus-visible {
+      outline: 2px solid var(--focus-color);
+      outline-offset: var(--focus-offset);
+    }
+
+    &::selection,
+    &::-moz-selection {
+      background: var(--number-text-highlight);
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+@layer system {
+  :root {
+    --input-background: var(--gray-100);
+    --input-border: 1px solid oklch(var(--gray-950-oklch) / 7%);
+    --input-border-radius: var(--size-1);
+
+    --input-padding-inline: var(--size-4);
+    --input-padding-block: 0;
+
+    @media (prefers-color-scheme: dark) {
+      --input-background: var(--gray-900);
+      --input-border: 1px solid oklch(var(--gray-50-oklch) / 7%);
+    }
+  }
+
+  input[type="text"] {
+    background: var(--input-background);
+    min-height: var(--size-12);
+    border-radius: var(--input-border-radius);
+  }
+}
+
+/* Only here until Tailwind is gone */
+input[type="text"] {
+  border: var(--input-border);
+  padding-inline: var(--input-padding-inline);
+}

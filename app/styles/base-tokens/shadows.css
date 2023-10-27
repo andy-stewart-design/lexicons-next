@@ -1,4 +1,4 @@
-@layer base {
+@layer system {
   :root {
     --shadow-color: 220 3% 15%;
     --shadow-strength: 1%;
