@@ -1,6 +1,7 @@
 @layer system {
   :root {
-    --test-color: cyan;
+    --black-oklch: 5% 0.015 270;
+    --black: oklch(var(--black-oklch));
 
     --gray-950-oklch: 18% 0.015 270;
     --gray-950: oklch(var(--gray-950-oklch));
@@ -19,5 +20,8 @@
 
     --gray-50-oklch: 97% 0.005 100;
     --gray-50: oklch(var(--gray-50-oklch));
+
+    --cyan-oklch: 85% 0.19 200;
+    --cyan: oklch(var(--cyan-oklch));
   }
 }

@@ -1,0 +1,52 @@
+@layer modules {
+}
+
+.base-select {
+  --select-padding-inline: var(--input-padding-inline);
+  --select-padding-block: var(--input-padding-block);
+  --select-background: var(--input-background);
+  --select-border: var(--input-border);
+  --select-border-radius: var(--input-border-radius);
+
+  display: flex;
+  gap: var(--size-4);
+  align-items: center;
+  justify-content: space-between;
+
+  background: var(--input-background);
+  border: var(--input-border);
+  border-radius: var(--input-border-radius);
+
+  min-height: var(--size-12);
+  padding-inline: var(--input-padding-inline);
+  padding-block: var(--input-padding-block);
+
+  line-height: 1;
+  text-transform: capitalize;
+}
+
+.base-select-content {
+  background: var(--gray-850);
+  border: var(--input-border);
+  border-radius: var(--input-border-radius);
+
+  width: 100%;
+  box-shadow: var(--shadow-4);
+  overflow: hidden;
+}
+
+.base-select-item {
+  position: relative;
+  padding-inline: var(--size-4);
+  padding-block: var(--size-3);
+
+  user-select: none;
+
+  line-height: inherit;
+
+  &[data-highlighted] {
+    color: var(--gray-50);
+    background: var(--black);
+    outline: none;
+  }
+}

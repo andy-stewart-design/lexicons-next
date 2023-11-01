@@ -1,21 +1,29 @@
 @layer system, modules, overrides;
 
+@import "./reset.css";
+
 @import "./base-tokens/colors.css";
 @import "./base-tokens/easings.css";
 @import "./base-tokens/shadows.css";
 @import "./base-tokens/sizes.css";
 @import "./base-tokens/theme.css";
 
+@import "./base-components/buttons.css";
 @import "./base-components/inputs.css";
-@import "./base-components/number-input.css";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@layer system {
+  html {
+    /* background: var(--accent-color); */
+    background: linear-gradient(
+      to bottom right in oklab,
+      var(--accent-color) 0%,
+      var(--analogous-color) 100%
+    );
+    min-height: 100dvh;
+  }
 
-@layer base {
   body {
     color: var(--foreground);
-    background: var(--background);
+    /* background: var(--background); */
   }
 }

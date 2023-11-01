@@ -1,9 +1,16 @@
 "use client";
 
-import { type ComponentProps, useId } from "react";
-import * as RadPopover from "@radix-ui/react-popover";
+import { useEffect, type CSSProperties } from "react";
+import { Root } from "@radix-ui/react-popover";
+import {
+  ColorPickerDropDown,
+  ColorPickerPreview,
+  ColorPickerSlider,
+  ColorPickerTrigger,
+} from ".";
 import NumberInput from "@components/NumberInput";
 import type { SliderSetupHookReturn } from "@/app/hooks/use-input";
+import type { ColorValue } from "./types";
 import classes from "./colorpicker.module.css";
 
 interface ColorPickerProps {
@@ -13,138 +20,107 @@ interface ColorPickerProps {
 }
 
 export default function ColorPicker({
-  hue: hueProps,
-  chroma: chromaProps,
-  lightness: lightnessProps,
+  hue,
+  chroma,
+  lightness,
 }: ColorPickerProps) {
-  const [hue, setHue, restHueProps] = hueProps;
-  const [chroma, setChroma, restChromaProps] = chromaProps;
-  const [light, setLight, restLightProps] = lightnessProps;
+  const sliderProps = formatColorValue(hue, chroma, lightness);
 
-  const backgroundColor = `oklch(${light}% ${chroma} ${hue})`;
+  const backgroundOKLCH = `${lightness[0]}% ${chroma[0]} ${hue[0]}`;
+  const backgroundColor = `oklch(${backgroundOKLCH})`;
+
+  // useEffect prevents document error on initial render
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      "--accent-color-oklch",
+      backgroundOKLCH
+    );
+
+    const analogousChroma = chroma[0] < 0.3 ? chroma[0] : 0.3;
+    const analogousLightness = lightness[0] < 50 ? lightness[0] : 50;
+
+    const analogousOKLCH = `${analogousLightness}% ${analogousChroma} ${
+      hue[0] + 60
+    }`;
+
+    document.documentElement.style.setProperty(
+      "--analogous-color-oklch",
+      analogousOKLCH
+    );
+  }, [backgroundOKLCH, lightness, chroma, hue]);
 
   return (
     <div className={`${classes["color-picker-group"]} test`}>
       <p>Accent Color</p>
       <div className={classes["color-picker"]}>
-        <RadPopover.Root>
-          <RadPopover.Trigger asChild>
-            <button
-              className={classes.trigger}
-              style={{ backgroundColor }}
-              aria-label="Update icon color"
-            ></button>
-          </RadPopover.Trigger>
-          <RadPopover.Portal>
-            <RadPopover.Content
-              className={classes["drop-down"]}
-              sideOffset={8}
-              align="start"
+        <Root>
+          <ColorPickerTrigger backgroundColor={backgroundColor} />
+          <ColorPickerDropDown>
+            <div
+              style={
+                {
+                  "--accent-color": backgroundColor,
+                  "--hue": hue[0],
+                  "--lightness": `${lightness[0]}%`,
+                  display: "grid",
+                  gap: "var(--size-3)",
+                  padding: "var(--size-4)",
+                } as CSSProperties
+              }
             >
-              <ColorPreview style={{ backgroundColor }} />
-              <div className="p-4">
-                <div className="grid gap-4">
-                  {/* ----- HUE SLIDER ----- */}
-                  <ColorSlider value={hue} onChange={setHue} {...restHueProps}>
-                    Hue
-                  </ColorSlider>
-                  {/* ----- CHROMA SLIDER ----- */}
-                  <ColorSlider
-                    value={chroma}
-                    onChange={setChroma}
-                    numDecimals={2}
-                    {...restChromaProps}
-                  >
-                    Saturation
-                  </ColorSlider>
-                  {/* ----- LIGHTNESS SLIDER ----- */}
-                  <ColorSlider
-                    value={light}
-                    onChange={setLight}
-                    {...restLightProps}
-                  >
-                    Lightness
-                  </ColorSlider>
-                </div>
-              </div>
-            </RadPopover.Content>
-          </RadPopover.Portal>
-        </RadPopover.Root>
-        <span>
-          {/* <input
-            type="number"
-            value={hue}
-            onChange={setHue}
-            {...restHueProps}
-            step="10"
-          /> */}
-          <NumberInput
-            value={hue}
-            onChange={setHue}
-            {...restHueProps}
-            step="10"
-          />
-        </span>
-        <span>
-          <input
-            type="number"
-            value={chroma}
-            onChange={setChroma}
-            {...restChromaProps}
-          />
-        </span>
-        <span>
-          <input
-            type="number"
-            value={light}
-            onChange={setLight}
-            {...restLightProps}
-          />
-        </span>
+              {sliderProps.map((slider) => (
+                <ColorPickerSlider
+                  key={slider.label}
+                  variant={slider.label}
+                  value={slider.value}
+                  onChange={slider.onChange}
+                  numDecimals={2}
+                  {...slider.delegated}
+                >
+                  {slider.label}
+                </ColorPickerSlider>
+              ))}
+            </div>
+            <ColorPickerPreview
+              currentColor={backgroundColor}
+              lightness={lightness[0]}
+            />
+          </ColorPickerDropDown>
+        </Root>
+
+        {sliderProps.map((slider) => (
+          <span key={slider.label}>
+            <NumberInput
+              value={slider.value}
+              onChange={slider.onChange}
+              {...slider.delegated}
+              step={slider.step}
+            />
+          </span>
+        ))}
       </div>
     </div>
   );
 }
 
-// COLOR PREVIEW -------------------------------------------- //
+function formatColorValue(
+  hue: SliderSetupHookReturn,
+  chroma: SliderSetupHookReturn,
+  lightness: SliderSetupHookReturn
+) {
+  const labels: Array<ColorValue> = ["hue", "chroma", "lightness"];
+  const numDecimals = [1, 2, 1];
+  const steps = [10, 0.01, 1];
+  const props = [hue, chroma, lightness];
 
-function ColorPreview({ style }: ComponentProps<"div">) {
-  return <div className="h-32" style={style} />;
-}
-
-// COLOR SLIDER -------------------------------------------- //
-
-interface ColorSliderProps extends ComponentProps<"input"> {
-  numDecimals?: number;
-}
-
-function ColorSlider({
-  children,
-  value,
-  onChange,
-  numDecimals = 1,
-  ...delegated
-}: ColorSliderProps) {
-  const id = useId();
-
-  return (
-    <div className="grid gap-2">
-      <div className="flex">
-        <label htmlFor={id} className="grow">
-          {children}
-        </label>
-        <span className="tabular-nums">
-          {Number(value).toFixed(numDecimals)}
-        </span>
-      </div>
-      <input
-        {...delegated}
-        id={id}
-        type="range"
-        className="block w-full"
-        value={value}
-        onChange={onChange}
-      />
-    </div>
-  );
+  return props.map((prop, index) => {
+    return {
+      value: prop[0],
+      onChange: prop[1],
+      delegated: prop[2],
+      label: labels[index],
+      numDecimals: numDecimals[index],
+      step: steps[index],
+    };
+  });
 }

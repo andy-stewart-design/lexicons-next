@@ -12,6 +12,7 @@ export default function IconCard({ children, name }: Props) {
     <div className={classes["icon-card"]}>
       <button onClick={() => console.log(`You clicked ${name}!`)}>
         {children}
+        <p>{name.replaceAll("_", " ")}</p>
       </button>
     </div>
   );

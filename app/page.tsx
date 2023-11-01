@@ -1,8 +1,8 @@
 import IconCard from "@components/IconCard";
 import SVG from "@components/SVG";
 import SearchInput from "./components/SearchInput/SearchInput";
-import { fetchIcons, countIcons } from "@utils/prisma";
 import Select from "@components/Select";
+import { fetchIcons, countIcons } from "@utils/prisma";
 
 interface PageProps {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -44,40 +44,54 @@ export default async function Home({ searchParams }: PageProps) {
   if (style) currentSearchParams.set("style", style);
 
   return (
-    <>
-      <nav className="flex items-center gap-4 px-16 pt-8">
-        <Select
-          options={iconStyles}
-          defaultValue={style ?? ""}
-          currentSearchParams={currentSearchParams}
-        />
-        <SearchInput
-          currentSearchParams={currentSearchParams}
-          defaultValue={query}
-          style={{ flexGrow: 1 }}
-        />
-        <div className="text-[11px] leading-snug tracking-wide">
-          <div className="opacity-60">Showing</div>
-          <span className="text-[13px] slashed-zero tabular-nums">
-            0{iconCount} icons
-          </span>
-        </div>
-      </nav>
-      <section className="grid grid-cols-6 gap-4 p-16">
-        {!style || icons.length === 0 ? (
-          <p>No icons found</p>
-        ) : (
-          icons_alphabetized.map((icon) => (
-            <IconCard key={icon.id} name={icon.name}>
-              <SVG key={icon.id} variant={style} icon={icon} />
-              <p className="capitalize text-xs">
-                {icon.name.replaceAll("_", " ")}
-              </p>
-            </IconCard>
-          ))
-        )}
-      </section>
-    </>
+    <div style={{ padding: "var(--size-6)", height: "100lvh" }}>
+      <div
+        style={{
+          background: "var(--background)",
+          height: "100%",
+          borderRadius: "var(--size-3)",
+        }}
+      >
+        <nav
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "1rem",
+            paddingInline: "4rem",
+            paddingBlockStart: "2rem",
+          }}
+        >
+          <Select
+            options={iconStyles}
+            defaultValue={style ?? ""}
+            currentSearchParams={currentSearchParams}
+          />
+          <SearchInput
+            currentSearchParams={currentSearchParams}
+            defaultValue={query}
+            style={{ flexGrow: 1 }}
+          />
+        </nav>
+        <section
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(6, minmax(0, 1fr))",
+            gap: "1rem",
+            padding: "4rem",
+          }}
+        >
+          {!style || icons.length === 0 ? (
+            <p>No icons found</p>
+          ) : (
+            icons_alphabetized.map((icon) => (
+              <IconCard key={icon.id} name={icon.name}>
+                <SVG key={icon.id} variant={style} icon={icon} />
+              </IconCard>
+            ))
+          )}
+        </section>
+      </div>
+    </div>
   );
 }
 
