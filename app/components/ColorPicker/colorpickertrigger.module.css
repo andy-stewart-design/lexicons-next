@@ -5,6 +5,7 @@
   flex-shrink: 0;
   width: var(--trigger-size);
   height: var(--trigger-size);
+  background-color: var(--accent-color);
   border: 2px solid oklch(var(--gray-950-oklch) / 20%);
   border-radius: var(--trigger-size);
 }

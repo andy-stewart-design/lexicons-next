@@ -1,0 +1,8 @@
+@layer system {
+  label,
+  .label {
+    font-size: 0.875rem;
+    font-weight: 520;
+    line-height: 1;
+  }
+}

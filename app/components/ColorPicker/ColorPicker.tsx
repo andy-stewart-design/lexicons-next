@@ -1,99 +1,74 @@
-"use client";
+'use client';
 
-import { useEffect, type CSSProperties } from "react";
-import { Root } from "@radix-ui/react-popover";
-import {
-  ColorPickerDropDown,
-  ColorPickerPreview,
-  ColorPickerSlider,
-  ColorPickerTrigger,
-} from ".";
-import NumberInput from "@components/NumberInput";
-import type { SliderSetupHookReturn } from "@/app/hooks/use-input";
-import type { ColorValue } from "./types";
-import classes from "./colorpicker.module.css";
+import { useEffect } from 'react';
+import { Root } from '@radix-ui/react-popover';
+import { ColorPickerDropDown, ColorPickerPreview, ColorPickerSlider, ColorPickerTrigger } from '.';
+import NumberInput from '@components/NumberInput';
+import { useSlider, type SliderSetupHookReturn } from '@/app/hooks/use-input';
+import type { ColorPickerProps, ColorValue } from './types';
+import classes from './colorpicker.module.css';
+import VisiblyHidden from '../VisiblyHidden';
 
-interface ColorPickerProps {
-  hue: SliderSetupHookReturn;
-  chroma: SliderSetupHookReturn;
-  lightness: SliderSetupHookReturn;
-}
+export default function ColorPicker({ primaryColor, secondaryColor }: ColorPickerProps) {
+  const [hue, setHue, restHueProps] = useSlider(200, 0, 360, 0.1);
+  const [chroma, setChroma, restChromaProps] = useSlider(0.4, 0, 0.5, 0.01);
+  const [lightness, setLightness, restLightnessProps] = useSlider(85, 0, 100, 0.1);
 
-export default function ColorPicker({
-  hue,
-  chroma,
-  lightness,
-}: ColorPickerProps) {
-  const sliderProps = formatColorValue(hue, chroma, lightness);
+  const sliderProps = formatColorValues(
+    [hue, setHue, restHueProps],
+    [chroma, setChroma, restChromaProps],
+    [lightness, setLightness, restLightnessProps]
+  );
 
-  const backgroundOKLCH = `${lightness[0]}% ${chroma[0]} ${hue[0]}`;
-  const backgroundColor = `oklch(${backgroundOKLCH})`;
-
-  // useEffect prevents document error on initial render
   useEffect(() => {
-    document.documentElement.style.setProperty(
-      "--accent-color-oklch",
-      backgroundOKLCH
-    );
+    const backgroundOKLCH = `${lightness}% ${chroma} ${hue}`;
+    const analogousChroma = chroma < 0.3 ? chroma : 0.3;
+    const analogousLightness = lightness < 50 ? lightness : 50;
+    const analogousOKLCH = `${analogousLightness}% ${analogousChroma} ${hue + 60}`;
 
-    const analogousChroma = chroma[0] < 0.3 ? chroma[0] : 0.3;
-    const analogousLightness = lightness[0] < 50 ? lightness[0] : 50;
-
-    const analogousOKLCH = `${analogousLightness}% ${analogousChroma} ${
-      hue[0] + 60
-    }`;
-
-    document.documentElement.style.setProperty(
-      "--analogous-color-oklch",
-      analogousOKLCH
-    );
-  }, [backgroundOKLCH, lightness, chroma, hue]);
+    const root = document.documentElement.style;
+    root.setProperty(primaryColor, backgroundOKLCH);
+    root.setProperty(secondaryColor, analogousOKLCH);
+    root.setProperty('--hue', String(hue));
+    root.setProperty('--lightness', `${lightness}%`);
+  }, [lightness, chroma, hue, primaryColor, secondaryColor]);
 
   return (
-    <div className={`${classes["color-picker-group"]} test`}>
-      <p>Accent Color</p>
-      <div className={classes["color-picker"]}>
+    <div className={`${classes['color-picker-group']}`}>
+      <p aria-hidden className="label">
+        Accent Color
+      </p>
+      <div className={classes['color-picker']}>
         <Root>
-          <ColorPickerTrigger backgroundColor={backgroundColor} />
+          <ColorPickerTrigger />
           <ColorPickerDropDown>
-            <div
-              style={
-                {
-                  "--accent-color": backgroundColor,
-                  "--hue": hue[0],
-                  "--lightness": `${lightness[0]}%`,
-                  display: "grid",
-                  gap: "var(--size-3)",
-                  padding: "var(--size-4)",
-                } as CSSProperties
-              }
-            >
+            <div className={classes['slider-container']}>
               {sliderProps.map((slider) => (
                 <ColorPickerSlider
+                  {...slider.delegated}
                   key={slider.label}
                   variant={slider.label}
                   value={slider.value}
                   onChange={slider.onChange}
-                  numDecimals={2}
-                  {...slider.delegated}
+                  numDecimals={slider.numDecimals}
                 >
                   {slider.label}
                 </ColorPickerSlider>
               ))}
             </div>
-            <ColorPickerPreview
-              currentColor={backgroundColor}
-              lightness={lightness[0]}
-            />
+            <ColorPickerPreview colorValues={[hue, chroma, lightness]} />
           </ColorPickerDropDown>
         </Root>
 
         {sliderProps.map((slider) => (
           <span key={slider.label}>
+            <VisiblyHidden>
+              <label>{slider.label}</label>
+            </VisiblyHidden>
             <NumberInput
+              {...slider.delegated}
               value={slider.value}
               onChange={slider.onChange}
-              {...slider.delegated}
               step={slider.step}
             />
           </span>
@@ -103,12 +78,12 @@ export default function ColorPicker({
   );
 }
 
-function formatColorValue(
+function formatColorValues(
   hue: SliderSetupHookReturn,
   chroma: SliderSetupHookReturn,
   lightness: SliderSetupHookReturn
 ) {
-  const labels: Array<ColorValue> = ["hue", "chroma", "lightness"];
+  const labels: Array<ColorValue> = ['hue', 'chroma', 'lightness'];
   const numDecimals = [1, 2, 1];
   const steps = [10, 0.01, 1];
   const props = [hue, chroma, lightness];

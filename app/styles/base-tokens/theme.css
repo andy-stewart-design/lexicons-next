@@ -8,6 +8,8 @@
     --surface-3: var(--gray-850);
     --surface-4: var(--gray-900);
 
+    --hue: 200;
+    --lightness: 85%;
     --accent-color-oklch: 85% 0.4 200;
     --accent-color: oklch(var(--accent-color-oklch));
 

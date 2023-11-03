@@ -12,7 +12,7 @@
     --input-padding-inline: var(--size-4);
     --input-padding-block: 0;
 
-    --input-font-size: 15px;
+    --input-font-size: 0.875rem;
     --input-font-weight: 520;
 
     @media (prefers-color-scheme: dark) {
@@ -21,21 +21,18 @@
     }
   }
 
-  input[type="text"],
-  input[type="number"],
-  input[type="range"] {
-    --input-background: oklch(
-      var(--input-background-oklch) / var(--input-background-opacity)
-    );
+  input[type='text'],
+  input[type='number'],
+  input[type='range'] {
+    --input-background: oklch(var(--input-background-oklch) / var(--input-background-opacity));
     --input-border: var(--input-border-width) var(--input-border-style)
       oklch(var(--input-border-color) / var(--input-border-opacity));
   }
 
-  input[type="text"],
-  input[type="number"] {
+  input[type='text'],
+  input[type='number'] {
     background: var(--input-background);
-    transition: background-color 0.25s var(--ease-out-3),
-      border 0.25s var(--ease-out-3);
+    transition: background-color 0.25s var(--ease-out-3), border 0.25s var(--ease-out-3);
 
     &:hover {
       --input-background-opacity: 100%;
@@ -52,9 +49,13 @@
       outline: 2px solid oklch(var(--accent-color-oklch) / 40%);
       outline-offset: 2px;
     }
+
+    &::selection {
+      background-color: oklch(var(--accent-color-oklch) / 3px);
+    }
   }
 
-  input[type="text"] {
+  input[type='text'] {
     min-height: var(--size-12);
 
     padding-inline: var(--input-padding-inline);
@@ -63,7 +64,7 @@
     border-radius: var(--input-border-radius);
   }
 
-  input[type="number"] {
+  input[type='number'] {
     width: 100%;
     height: 100%;
     min-height: var(--size-4);
@@ -91,7 +92,7 @@
     }
   }
 
-  input[type="range"] {
+  input[type='range'] {
     --slider-height: var(--size-8);
 
     --thumb-width: 3px;
@@ -177,7 +178,7 @@
         background: oklch(var(--gray-700-oklch) / 40%);
       }
 
-      & + input[type="number"] {
+      & + input[type='number'] {
         background: transparent;
         border: 1px solid oklch(var(--white-oklch) / 8%);
       }

@@ -1,15 +1,17 @@
 @layer system, modules, overrides;
 
-@import "./reset.css";
+@import './reset.css';
 
-@import "./base-tokens/colors.css";
-@import "./base-tokens/easings.css";
-@import "./base-tokens/shadows.css";
-@import "./base-tokens/sizes.css";
-@import "./base-tokens/theme.css";
+@import './base-tokens/colors.css';
+@import './base-tokens/easings.css';
+@import './base-tokens/shadows.css';
+@import './base-tokens/sizes.css';
+@import './base-tokens/text.css';
 
-@import "./base-components/buttons.css";
-@import "./base-components/inputs.css";
+@import './base-tokens/theme.css';
+
+@import './base-components/buttons.css';
+@import './base-components/inputs.css';
 
 @layer system {
   html {
