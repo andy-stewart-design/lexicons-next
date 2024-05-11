@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { ChevronDown } from "@icons/16";
-import { useRouter } from "next/navigation";
-import * as RadSelect from "@radix-ui/react-select";
+import { ChevronDown } from '@icons/16';
+import { useRouter } from 'next/navigation';
+import * as RadSelect from '@radix-ui/react-select';
 import {
   ComponentProps,
   ForwardRefExoticComponent,
   RefAttributes,
   forwardRef,
   useState,
-} from "react";
-import classes from "./select.module.css";
+} from 'react';
+import classes from './select.module.css';
 
-interface Props extends ComponentProps<"select"> {
+interface Props extends ComponentProps<'select'> {
   options: {
     value: string;
     label: string;
@@ -21,40 +21,30 @@ interface Props extends ComponentProps<"select"> {
   defaultValue: string;
 }
 
-export default function Select({
-  options,
-  currentSearchParams,
-  defaultValue,
-}: Props) {
-  const [value, setValue] = useState("outline");
+export default function Select({ options, currentSearchParams, defaultValue }: Props) {
+  const [value, setValue] = useState('outline');
   const router = useRouter();
 
   function handleChange(value: string) {
     setValue(value);
 
     const newSearchParams = new URLSearchParams(currentSearchParams);
-    if (value === options[0].value) newSearchParams.delete("style");
-    else newSearchParams.set("style", value);
+    if (value === options[0].value) newSearchParams.delete('style');
+    else newSearchParams.set('style', value);
 
     router.push(`/?${newSearchParams}`);
   }
 
   return (
-    <RadSelect.Root
-      value={value}
-      defaultValue={defaultValue}
-      onValueChange={handleChange}
-    >
-      <RadSelect.Trigger className={classes["base-select"]} aria-label="Food">
-        <RadSelect.Value placeholder="Select a style">
-          {defaultValue}
-        </RadSelect.Value>
+    <RadSelect.Root value={value} defaultValue={defaultValue} onValueChange={handleChange}>
+      <RadSelect.Trigger className={classes['base-select']} aria-label="Food">
+        <RadSelect.Value placeholder="Select a style">{defaultValue}</RadSelect.Value>
         <RadSelect.Icon>
           <ChevronDown />
         </RadSelect.Icon>
       </RadSelect.Trigger>
       <RadSelect.Portal>
-        <RadSelect.Content className={classes["base-select-content"]}>
+        <RadSelect.Content className={classes['base-select-content']}>
           <RadSelect.Viewport>
             <RadSelect.Group>
               {options.map((option) => (
@@ -74,14 +64,10 @@ const SelectItem: ForwardRefExoticComponent<
   RadSelect.SelectItemProps & RefAttributes<HTMLDivElement>
 > = forwardRef(({ children, className, ...props }, forwardRef) => {
   return (
-    <RadSelect.Item
-      className={classes["base-select-item"]}
-      {...props}
-      ref={forwardRef}
-    >
+    <RadSelect.Item className={classes['base-select-item']} {...props} ref={forwardRef}>
       <RadSelect.ItemText>{children}</RadSelect.ItemText>
     </RadSelect.Item>
   );
 });
 
-SelectItem.displayName = "SelectItem";
+SelectItem.displayName = 'SelectItem';

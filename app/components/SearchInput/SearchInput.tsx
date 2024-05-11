@@ -1,28 +1,24 @@
-"use client";
+'use client';
 
-import debounce from "just-debounce-it";
-import { useRouter } from "next/navigation";
-import type { ComponentProps, ChangeEvent } from "react";
-import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import debounce from 'just-debounce-it';
+import { useRouter } from 'next/navigation';
+import type { ComponentProps, ChangeEvent } from 'react';
+import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
-interface Props extends ComponentProps<"input"> {
+interface Props extends ComponentProps<'input'> {
   currentSearchParams: URLSearchParams;
   defaultValue: string;
 }
 
-export default function SearchInput({
-  currentSearchParams,
-  defaultValue,
-  ...delegated
-}: Props) {
+export default function SearchInput({ currentSearchParams, defaultValue, ...delegated }: Props) {
   const router = useRouter();
 
   function handleSubmit(e: ChangeEvent<HTMLInputElement>) {
     const query = e.target.value;
     const newSearchParams = new URLSearchParams(currentSearchParams);
 
-    if (query !== "") newSearchParams.set("search", query);
-    else newSearchParams.delete("search");
+    if (query !== '') newSearchParams.set('search', query);
+    else newSearchParams.delete('search');
 
     debouncedSubmit(newSearchParams, router);
   }
@@ -40,9 +36,6 @@ export default function SearchInput({
   );
 }
 
-const debouncedSubmit = debounce(
-  (query: URLSearchParams, router: AppRouterInstance) => {
-    router.push(`/?${query}`);
-  },
-  300
-);
+const debouncedSubmit = debounce((query: URLSearchParams, router: AppRouterInstance) => {
+  router.push(`/?${query}`);
+}, 300);
